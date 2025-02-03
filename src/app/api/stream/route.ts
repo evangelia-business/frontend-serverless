@@ -1,7 +1,7 @@
 // app/api/stream/route.ts
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET() {
   let cancelled = false;
   
   const stream = new ReadableStream({
