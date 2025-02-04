@@ -34,9 +34,9 @@ export default function Home() {
 
         <Link href="/image-generation" className="block p-6 border rounded hover:bg-gray-100 transition">
 
-          <h2 className="text-2xl font-semibold mb-2">Image Generation (Optional)</h2>
+          <h2 className="text-2xl font-semibold mb-2">Image Generation</h2>
           <p className="text-gray-600">
-            (Optional) A demo for generating images via a serverless API.
+            A demo for generating images via a serverless API.
           </p>
 
         </Link>
