@@ -1,30 +1,53 @@
-// app/image-generation/page.tsx
 "use client";
 
 import { useState } from "react";
 
-export default function ImageGeneration() {
-  const [imageUrl, setImageUrl] = useState("");
+export default function ImageGenerationPage() {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [text, setText] = useState<string>("Hello!");
 
-  const handleGenerate = async () => {
-    // For demo purposes, this simulates an API call.
-    // Replace with your actual image generation API logic.
-    const res = await fetch("/api/image-generation");
-    const data = await res.json();
-    setImageUrl(data.url);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("/api/image-generation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, width: 300, height: 200 }),
+      });
+      const svgBlob = await response.blob();
+      const url = URL.createObjectURL(svgBlob);
+      setImageUrl(url);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
-    <div className="min-h-screen p-8 bg-gray-100 flex flex-col items-center">
+    <div className="min-h-screen p-8 flex flex-col items-center bg-gray-100">
       <h1 className="text-3xl font-bold mb-4">Image Generation Demo</h1>
-      <button
-        onClick={handleGenerate}
-        className="p-2 bg-green-600 text-white rounded mb-4"
-      >
-        Generate Image
-      </button>
+      <form id="imageForm" onSubmit={handleSubmit} className="mb-4">
+        <input
+          id="text"
+          type="text"
+          placeholder="Enter text for image"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          className="border p-2 rounded mr-2"
+          required
+        />
+        <button type="submit" className="bg-blue-600 text-white p-2 rounded">
+          Generate Image
+        </button>
+      </form>
       {imageUrl && (
-        <img src={imageUrl} alt="Generated" className="border rounded shadow" />
+        <div>
+          <img
+            id="generatedImage"
+            src={imageUrl}
+            alt="Generated"
+            className="border rounded shadow"
+          />
+        </div>
       )}
     </div>
   );
