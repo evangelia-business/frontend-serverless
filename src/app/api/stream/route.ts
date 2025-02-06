@@ -20,7 +20,7 @@ export async function GET() {
         } catch (error) {
           // Optionally log the error
           console.error("Error enqueuing event:", error);
-          return; // Stop further attempts if error occurs
+          return error; // Stop further attempts if error occurs
         }
 
         // Schedule the next event after 3 seconds
