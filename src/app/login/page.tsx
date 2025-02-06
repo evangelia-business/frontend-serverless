@@ -22,7 +22,6 @@ export default function Login() {
       const data = await res.json();
 
       if (res.ok && data.token) {
-        // Store token in localStorage (optional, since we're using cookies)
         localStorage.setItem("token", data.token);
         
         // Navigate to auth page
